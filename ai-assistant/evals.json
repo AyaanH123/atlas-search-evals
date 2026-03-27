@@ -1,0 +1,5 @@
+{
+  "tool": "ai-assistant",
+  "description": "Evaluation suite for MongoDB Atlas Search via AI Assistant",
+  "evals": []
+}

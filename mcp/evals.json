@@ -1,0 +1,5 @@
+{
+  "tool": "mcp",
+  "description": "Evaluation suite for MongoDB Atlas Search via MCP",
+  "evals": []
+}

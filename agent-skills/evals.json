@@ -1,0 +1,5 @@
+{
+  "tool": "agent-skills",
+  "description": "Evaluation suite for MongoDB Atlas Search via Agent Skills",
+  "evals": []
+}
