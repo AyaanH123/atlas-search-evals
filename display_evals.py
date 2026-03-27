@@ -9,8 +9,16 @@ EVALS_PATH = Path(__file__).parent / "mcp" / "evals.json"
 OUTPUT_PATH = Path(__file__).parent / "mcp-evals.md"
 
 
-def truncate(text: str, max_len: int = 120) -> str:
-    return text if len(text) <= max_len else text[: max_len - 3] + "..."
+def format_json_for_cell(output: object) -> str:
+    """Pretty-print JSON for use inside a markdown table cell."""
+    formatted = json.dumps(output, indent=2)
+    lines = []
+    for line in formatted.splitlines():
+        # Count leading spaces and replace with &nbsp; to preserve indentation
+        stripped = line.lstrip(" ")
+        spaces = len(line) - len(stripped)
+        lines.append("&nbsp;" * spaces + stripped)
+    return "<code>" + "<br>".join(lines) + "</code>"
 
 
 def tool_calls_summary(tool_calls: list) -> str:
@@ -18,10 +26,8 @@ def tool_calls_summary(tool_calls: list) -> str:
     for tc in tool_calls:
         tool = tc.get("tool", "")
         output = tc.get("output", {})
-        # Compact JSON, stripped of whitespace
-        output_str = json.dumps(output, separators=(",", ":"))
-        parts.append(f"`{tool}` → `{truncate(output_str, 100)}`")
-    return "<br>".join(parts)
+        parts.append(f"`{tool}` →<br>{format_json_for_cell(output)}")
+    return "<br><br>".join(parts)
 
 
 def escape_pipe(text: str) -> str:
